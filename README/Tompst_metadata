@@ -1,0 +1,12 @@
+#Column descriptions for Tompst output file
+
+
+index of the measure
+date and time in UTC
+time zone
+T1 (temperature sensor #1)
+T2 (temperature sensor #2)
+T3 (temperature sensor #3)
+soil moisture count (raw moisture data)
+shake
+errFlag (if =1 the device couldn’t convert time from PCF chip)
