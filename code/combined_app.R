@@ -5,6 +5,7 @@ library(DT)
 library(dplyr)
 library(lubridate)
 library(tidyr)
+library(scales)
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -57,6 +58,19 @@ lang <- list(
   plot_timeseries      = "Time Series",
   plot_boxplot         = "Boxplot",
   plot_histogram       = "Histogram",
+  plot_daily_summary   = "Daily Summary",
+
+  # Daily-summary range controls
+  range_label          = "Plot range",
+  range_entire         = "Entire range",
+  range_year           = "Year",
+  range_month          = "Month",
+  station_label        = "Stations",
+
+  # Daily-summary line suffixes (appended to station label in legend)
+  suffix_mean          = "mean",
+  suffix_max           = "max",
+  suffix_min           = "min",
 
   # HOBO view choices (left = display label, right = internal value — do NOT change right side)
   view_hourly          = "Hourly Time Series",
@@ -94,80 +108,95 @@ lang <- list(
   error_reading        = "Error reading"
 )
 
+# The following is the Spanish language translation
+
 lang <- list(
   # App title
-  app_title            = "Ecuador Sensor Data Explorer",
-
+  app_title            = "Explorador de datos-Cayambe",
+  
   # Sidebar
-  upload_label         = "Upload CSV files",
-  assign_header        = "Assign type and label per file:",
-  assign_subtext       = "Select the sensor type and provide a short label for each file.",
-  apply_button         = "Apply & Load Data",
-  date_range_label     = "Date Range",
-
+  upload_label         = "Subir archivos CSV",
+  assign_header        = "Assignar información del archivo:",
+  assign_subtext       = "Selectionar el tipo de sensor y darle etiqueta a cada archivo.",
+  apply_button         = "Aplicar y Cargar los datos",
+  date_range_label     = "Rango de Fechas",
+  
   # File type choices (left = display label, right = internal value — do NOT change right side)
-  ftype_tomst          = "TOMST TMS-3",
-  ftype_hobo           = "HOBO Rain Gauge",
-
+  ftype_tomst          = "Sensor de suelo TOMST TMS-3",
+  ftype_hobo           = "Sensor de lluvia HOBO",
+  
   # Tab names
-  tab_tomst            = "TOMST Sensors",
-  tab_rain             = "Rain Gauges",
-  tab_data             = "Data",
+  tab_tomst            = "Sensores TOMST",
+  tab_rain             = "Pluviometros",
+  tab_data             = "Datos",
   tab_data_tomst       = "TOMST",
-  tab_data_rain        = "Rain Gauges",
-
+  tab_data_rain        = "Pluviometros",
+  
   # Plot controls
-  plot_controls        = "Plot controls",
+  plot_controls        = "Controles de gráfico",
   variable_label       = "Variable",
-  plot_type_label      = "Plot type",
-  view_label           = "View",
-  bin_by_label         = "Bin by",
-
+  plot_type_label      = "Tipo de gráfico",
+  view_label           = "Ver",
+  bin_by_label         = "Juntar datos por",
+  
   # TOMST variable choices (left = display label, right = internal value — do NOT change right side)
   var_T1               = "T1 (-6cm)",
   var_T2               = "T2 (+2cm)",
   var_T3               = "T3 (+15cm)",
-  var_soil             = "Soil Moisture",
-
+  var_soil             = "Humedad de Suelo",
+  
   # Plot type choices (left = display label, right = internal value — do NOT change right side)
-  plot_timeseries      = "Time Series",
+  plot_timeseries      = "Serie de tiempo",
   plot_boxplot         = "Boxplot",
-  plot_histogram       = "Histogram",
-
+  plot_histogram       = "Histograma",
+  plot_daily_summary   = "Daily Summary", #TRANSLATION NEEDED
+  
+  # Daily-summary range controls
+  range_label          = "Plot range", #TRANSLATION NEEDED
+  range_entire         = "Entire range", #TRANSLATION NEEDED
+  range_year           = "Year", #TRANSLATION NEEDED
+  range_month          = "Month", #TRANSLATION NEEDED
+  station_label        = "Stations", #TRANSLATION NEEDED
+  
+  # Daily-summary line suffixes (appended to station label in legend)
+  suffix_mean          = "mean", #TRANSLATION NEEDED
+  suffix_max           = "max", #TRANSLATION NEEDED
+  suffix_min           = "min", #TRANSLATION NEEDED
+  
   # HOBO view choices (left = display label, right = internal value — do NOT change right side)
-  view_hourly          = "Hourly Time Series",
-  view_binned          = "Binned Summary",
-
+  view_hourly          = "Datos por hora",
+  view_binned          = "Resumen de datos",
+  
   # Bin-by choices (left = display label, right = internal value — do NOT change right side)
-  bin_month            = "Month",
-  bin_day              = "Day of Month",
-  bin_season           = "Season",
-  bin_year             = "Year",
-
+  bin_month            = "Mes",
+  bin_day              = "Día del Mes",
+  bin_season           = "Estación",
+  bin_year             = "Año",
+  
   # Plot axis / legend labels
-  axis_datetime        = "Date / Time",
-  axis_label           = "Label",
-  axis_count           = "Count",
-  axis_precip_hr       = "Precipitation (mm/hr)",
-  axis_precip_total    = "Total Precipitation (mm)",
-  legend_label         = "Label",
-  legend_station       = "Station",
-
+  axis_datetime        = "Fecha / Hora",
+  axis_label           = "Etiqueta",
+  axis_count           = "Cuenta",
+  axis_precip_hr       = "Lluvia (mm/hr)",
+  axis_precip_total    = "Total lluvia (mm)",
+  legend_label         = "Etiqueta",
+  legend_station       = "Estación",
+  
   # Station info card
-  station_summaries    = "Station summaries",
-  station_total_span   = "Total: %.1f mm  |  Span: %.0f days",
-
+  station_summaries    = "Resumenes de estación",
+  station_total_span   = "Total: %. si mm  |  Duración: %. de días",
+  
   # Data table column names
-  col_station          = "Station",
-  col_datetime         = "Date / Time",
+  col_station          = "Estación",
+  col_datetime         = "Fecha / Hora",
   col_precip_hr        = "Precip (mm/hr)",
   col_temp             = "Temp (°C)",
-
+  
   # Month/year picker label (shown when bin by = Day of Month)
-  month_year_label     = "Month / Year",
-
+  month_year_label     = "Mes / Año",
+  
   # Error message (note: file name and error details are appended automatically)
-  error_reading        = "Error reading"
+  error_reading        = "Error de lectura"
 )
 
 # Named choice vectors built from lang — do NOT edit directly, edit lang above
@@ -178,8 +207,13 @@ tomst_var_choices <- setNames(
 )
 
 plot_type_choices <- setNames(
-  c("time_series", "boxplot", "histogram"),
-  c(lang$plot_timeseries, lang$plot_boxplot, lang$plot_histogram)
+  c("time_series", "boxplot", "histogram", "daily_summary"),
+  c(lang$plot_timeseries, lang$plot_boxplot, lang$plot_histogram, lang$plot_daily_summary)
+)
+
+tomst_range_choices <- setNames(
+  c("entire", "year", "month"),
+  c(lang$range_entire, lang$range_year, lang$range_month)
 )
 
 hobo_view_choices <- setNames(
@@ -234,7 +268,7 @@ aggregate_hobo_hourly <- function(df) {
     ) %>%
     mutate(
       Year   = year(hour), 
-      MonthN = month(hour, label = TRUE, abbr = TRUE, locale  = "es_ES"),
+      MonthN = month(hour, label = TRUE, abbr = TRUE, locale  = "es_EN"),
       Day    = day(hour),
       Season = case_when(
         month(hour) %in% c(12, 1, 2)  ~ "DJF", #T = Match to season_levels (L 21)
@@ -268,7 +302,20 @@ ui <- page_sidebar(
           card_header(lang$plot_controls),
           selectInput("tomst_var", lang$variable_label, choices = tomst_var_choices),
           selectInput("tomst_plot_type", lang$plot_type_label,
-                      choices = plot_type_choices)
+                      choices = plot_type_choices),
+          conditionalPanel(
+            condition = "input.tomst_plot_type == 'daily_summary'",
+            selectInput("tomst_range", lang$range_label, choices = tomst_range_choices),
+            conditionalPanel(
+              condition = "input.tomst_range == 'year'",
+              uiOutput("tomst_year_ui")
+            ),
+            conditionalPanel(
+              condition = "input.tomst_range == 'month'",
+              uiOutput("tomst_month_year_ui")
+            ),
+            uiOutput("tomst_station_ui")
+          )
         ),
         plotlyOutput("tomst_plot", height = "540px")
       )
@@ -418,6 +465,34 @@ server <- function(input, output, session) {
              as.Date(hour) <= input$date_range[2])
   })
 
+  # ── TOMST daily-summary pickers ─────────────────────────────────────────────
+
+  output$tomst_year_ui <- renderUI({
+    req(tomst_filtered())
+    yrs <- sort(unique(year(tomst_filtered()$datetime)))
+    selectInput("tomst_year", lang$range_year, choices = yrs)
+  })
+
+  output$tomst_month_year_ui <- renderUI({
+    req(tomst_filtered())
+    df <- tomst_filtered()
+    month_years <- df %>%
+      mutate(ym = format(datetime, "%Y-%m")) %>%
+      distinct(ym) %>% arrange(ym) %>% pull(ym)
+    ym_dates <- as.Date(paste0(month_years, "-01"))
+    display_labels <- paste0(
+      month(ym_dates, label = TRUE, abbr = TRUE, locale = "es_ES"), " ", year(ym_dates))
+    selectInput("tomst_month_year", lang$month_year_label,
+                choices = setNames(month_years, display_labels))
+  })
+
+  output$tomst_station_ui <- renderUI({
+    req(tomst_filtered())
+    stns <- sort(unique(tomst_filtered()$label))
+    selectInput("tomst_stations", lang$station_label,
+                choices = stns, selected = stns, multiple = TRUE)
+  })
+
   # ── TOMST plot ──────────────────────────────────────────────────────────────
 
   output$tomst_plot <- renderPlotly({
@@ -440,7 +515,7 @@ server <- function(input, output, session) {
         layout(xaxis = list(title = lang$axis_label),
                yaxis = list(title = var_label))
 
-    } else {
+    } else if (input$tomst_plot_type == "histogram") {
       lbls <- unique(df$label)
       p    <- plot_ly()
       for (lbl in lbls) {
@@ -451,6 +526,77 @@ server <- function(input, output, session) {
                    xaxis  = list(title = var_label),
                    yaxis  = list(title = lang$axis_count),
                    legend = list(title = list(text = lang$legend_label)))
+
+    } else {  # daily_summary — always plotted at the daily level
+
+      # Apply the range filter (entire / year / month)
+      plot_df <- df
+      if (input$tomst_range == "year") {
+        req(input$tomst_year)
+        plot_df <- plot_df %>% filter(year(datetime) == as.integer(input$tomst_year))
+      } else if (input$tomst_range == "month") {
+        req(input$tomst_month_year)
+        plot_df <- plot_df %>% filter(format(datetime, "%Y-%m") == input$tomst_month_year)
+      }
+
+      # Restrict to selected stations
+      req(input$tomst_stations)
+      plot_df <- plot_df %>% filter(label %in% input$tomst_stations)
+      req(nrow(plot_df) > 0)
+
+      # Daily mean / max / min per station
+      daily <- plot_df %>%
+        mutate(date = as.Date(datetime)) %>%
+        group_by(label, date) %>%
+        summarise(
+          daily_mean = mean(.data[[var]], na.rm = TRUE),
+          daily_max  = max(.data[[var]],  na.rm = TRUE),
+          daily_min  = min(.data[[var]],  na.rm = TRUE),
+          .groups = "drop"
+        )
+
+      # One color per station; line type encodes mean/max/min
+      stations <- unique(daily$label)
+      palette  <- setNames(
+        plotly::toRGB(scales::hue_pal()(length(stations))), stations)
+
+      # When a single month is selected, x = day-of-month integer (1..31),
+      # one tick per day, and the month/year goes in the axis title.
+      month_mode <- input$tomst_range == "month"
+      if (month_mode) {
+        daily$xval <- day(daily$date)
+        ym         <- as.Date(paste0(input$tomst_month_year, "-01"))
+        x_axis <- list(
+          title     = paste0(month(ym, label = TRUE, abbr = TRUE, locale = "es_ES"),
+                             " ", year(ym)),
+          tickmode  = "linear",
+          dtick     = 1,
+          range     = c(0.5, days_in_month(ym) + 0.5)
+        )
+      } else {
+        daily$xval <- daily$date
+        x_axis <- list(title = lang$axis_datetime, tickformat = "%d %b %Y")
+      }
+
+      p <- plot_ly()
+      for (lbl in stations) {
+        d   <- daily[daily$label == lbl, ]
+        col <- palette[[lbl]]
+        p <- p %>%
+          add_trace(data = d, x = ~xval, y = ~daily_mean, type = "scatter",
+                    mode = "lines", name = paste(lbl, "—", lang$suffix_mean),
+                    line = list(color = col, dash = "solid")) %>%
+          add_trace(data = d, x = ~xval, y = ~daily_max, type = "scatter",
+                    mode = "lines", name = paste(lbl, "—", lang$suffix_max),
+                    line = list(color = col, dash = "dash")) %>%
+          add_trace(data = d, x = ~xval, y = ~daily_min, type = "scatter",
+                    mode = "lines", name = paste(lbl, "—", lang$suffix_min),
+                    line = list(color = col, dash = "dot"))
+      }
+      p %>% layout(xaxis  = x_axis,
+                   yaxis  = list(title = var_label),
+                   legend = list(title = list(text = lang$legend_label))) %>%
+        config(locale = "es")
     }
   })
 
